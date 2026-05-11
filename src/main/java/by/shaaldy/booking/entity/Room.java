@@ -1,46 +1,51 @@
 package by.shaaldy.booking.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
-import lombok.Getter;
-import lombok.Setter;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
+import jakarta.validation.constraints.Positive;
+import lombok.*;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 @Entity
-@Table(name = "rooms", schema = "booking")
+@Table(name = "rooms", indexes = {@Index(name = "idx_rooms_hotel", columnList = "hotel_id")})
 public class Room {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
     private Long id;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "hotel_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "hotel_id", nullable = false, foreignKey = @ForeignKey(name = "fk_rooms_hotel_id"))
     private Hotel hotel;
 
-    @Size(max = 50)
-    @Column(name = "number", length = 50)
+    @NotBlank
+    @Column(length = 50)
     private String number;
 
-    @Size(max = 50)
-    @Column(name = "type", length = 50)
-    private String type;
+    @NotBlank
+    @Column(length = 50)
+    private String type; // single, double, suite
 
     @NotNull
-    @Column(name = "price_per_night", nullable = false, precision = 10, scale = 2)
+    @DecimalMin(value = "0.01")
+    @Column(name = "price_per_night", precision = 10, scale = 2, nullable = false)
     private BigDecimal pricePerNight;
 
     @NotNull
-    @Column(name = "capacity", nullable = false)
+    @Positive
+    @Column(nullable = false)
     private Integer capacity;
 
-
+    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<Booking> bookings = new ArrayList<>();
 }

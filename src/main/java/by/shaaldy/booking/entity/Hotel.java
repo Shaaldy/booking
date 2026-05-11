@@ -1,44 +1,53 @@
 package by.shaaldy.booking.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
-import lombok.Getter;
-import lombok.Setter;
-import org.hibernate.annotations.ColumnDefault;
+import jakarta.validation.constraints.DecimalMax;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotBlank;
+import lombok.*;
 
-import java.math.BigDecimal;
-import java.time.Instant;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 @Entity
-@Table(name = "hotels", schema = "booking")
+@Table(name = "hotels", indexes = {
+        @Index(name = "idx_hotels_city", columnList = "city")
+})
 public class Hotel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
     private Long id;
 
-    @Size(max = 255)
-    @NotNull
-    @Column(name = "name", nullable = false)
+    @NotBlank
+    @Column(nullable = false, length = 255)
     private String name;
 
-    @Size(max = 100)
-    @NotNull
-    @Column(name = "city", nullable = false, length = 100)
+    @NotBlank
+    @Column(nullable = false, length = 100)
     private String city;
 
-    @Column(name = "address", length = Integer.MAX_VALUE)
     private String address;
 
-    @Column(name = "rating", precision = 2, scale = 1)
-    private BigDecimal rating;
+    @DecimalMin(value = "0.0", inclusive = false)
+    @DecimalMax(value = "5.0")
+    @Column(precision = 2, scale = 1)
+    private Double rating;
 
-    @ColumnDefault("now()")
-    @Column(name = "created_at")
-    private Instant createdAt;
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private LocalDateTime createdAt;
 
+    @OneToMany(mappedBy = "hotel", cascade = CascadeType.ALL,
+            orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<Room> rooms = new ArrayList<>();
 
+    @PrePersist
+    protected void onCreate() {
+        createdAt = LocalDateTime.now();
+    }
 }
