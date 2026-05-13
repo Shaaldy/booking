@@ -1,12 +1,11 @@
-package by.shaaldy.booking.dto;
+package by.shaaldy.booking.dto.request.hotel;
 
 import lombok.*;
 
-@Setter
-@Getter
-@Builder
-@AllArgsConstructor
+@Data
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class CreateHotelRequest {
     private String name;
     private String city;

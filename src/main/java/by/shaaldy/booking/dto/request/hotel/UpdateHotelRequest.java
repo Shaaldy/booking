@@ -1,14 +1,14 @@
-package by.shaaldy.booking.dto;
+package by.shaaldy.booking.dto.request.hotel;
 
 import lombok.*;
 
-@Getter
-@Setter
-@AllArgsConstructor
+@Data
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class UpdateHotelRequest {
     private String name;
     private String city;
+    private String address;
     private Double rating;
 }
