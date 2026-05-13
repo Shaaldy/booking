@@ -12,8 +12,8 @@ import lombok.*;
 
 @Entity
 @Table(
-    name = "rooms",
-    indexes = {@Index(name = "idx_rooms_hotel", columnList = "hotel_id")})
+    name = "hotels",
+    indexes = {@Index(name = "idx_hotels_city", columnList = "city")})
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

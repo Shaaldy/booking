@@ -27,7 +27,7 @@ public class User {
 
   @NotBlank(message = "Email cannot be blank")
   @Email(message = "Email should be valid")
-  @Column(nullable = false, unique = true, length = 255)
+  @Column(nullable = false, unique = true)
   private String email;
 
   @NotBlank(message = "Password cannot be blank")
