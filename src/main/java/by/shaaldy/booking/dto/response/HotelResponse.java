@@ -1,15 +1,17 @@
-package by.shaaldy.booking.dto;
+package by.shaaldy.booking.dto.response;
 
 import lombok.*;
 
-@Setter
-@Getter
-@Builder
-@AllArgsConstructor
+import java.util.List;
+
+@Data
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class HotelResponse {
     private Long id;
     private String name;
     private String city;
     private Double rating;
+    private List<RoomResponse> availableRooms;
 }
