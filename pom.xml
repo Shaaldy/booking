@@ -28,6 +28,8 @@
     </scm>
     <properties>
         <java.version>26</java.version>
+        <checkstyle.version>10.12.1</checkstyle.version>
+        <spotbugs.version>4.8.1</spotbugs.version>
     </properties>
     <dependencies>
         <!--  =========================  -->
@@ -78,10 +80,90 @@
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
             <version>2.7.0</version>
         </dependency>
+
+
     </dependencies>
 
     <build>
         <plugins>
+            <!-- === SPOTLESS - АВТОМАТИЧЕСКИЙ ФОРМАТЕР (ГЛАВНОЕ) === -->
+            <!--
+            Spotless автоматически форматирует код:
+            - Импорты
+            - Отступы
+            - Пробелы
+            - Line endings
+            - Trailing whitespace
+
+            Команды:
+            mvn spotless:apply    # Исправить все ошибки
+            mvn spotless:check    # Только проверить
+            -->
+            <plugin>
+                <groupId>com.diffplug.spotless</groupId>
+                <artifactId>spotless-maven-plugin</artifactId>
+                <version>2.42.0</version>
+                <configuration>
+                    <java>
+                        <!-- Использовать Google Java Format -->
+                        <googleJavaFormat>
+                            <version>1.21.0</version>
+                        </googleJavaFormat>
+
+                        <!-- Дополнительные правила -->
+                        <importOrder>
+                            <order>java,javax,org,com,</order>
+                        </importOrder>
+
+                        <!-- Удалять trailing whitespace -->
+                        <trimTrailingWhitespace/>
+
+                        <!-- Unix line endings -->
+                        <endWithNewline/>
+                    </java>
+                </configuration>
+                <executions>
+                    <!-- Автоматически форматировать при компиляции -->
+                    <execution>
+                        <id>spotless-apply</id>
+                        <phase>process-sources</phase>
+                        <goals>
+                            <goal>apply</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- === CHECKSTYLE === -->
+            <!-- Проверка стиля кода -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>3.3.1</version>
+                <configuration>
+                    <configLocation>checkstyle.xml</configLocation>
+                    <consoleOutput>true</consoleOutput>
+                    <failsOnError>true</failsOnError>
+                    <linkXRef>false</linkXRef>
+                    <includeTestSourceDirectory>false</includeTestSourceDirectory>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.puppycrawl.tools</groupId>
+                        <artifactId>checkstyle</artifactId>
+                        <version>12.1.1</version>
+                    </dependency>
+                </dependencies>
+                <executions>
+                    <execution>
+                        <id>validate</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>

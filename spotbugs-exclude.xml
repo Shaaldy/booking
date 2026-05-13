@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FindBugsFilter>
+    <!--
+    SpotBugs (FindBugs) конфигурация для Booking Service
+    Определяет какие ошибки игнорировать
+    -->
+
+    <!-- Игнорировать потенциальные null pointer исключения в test коде -->
+    <Match>
+        <Class name="~.*Test$"/>
+        <Bug code="NP"/>
+    </Match>
+
+    <!-- Игнорировать serialVersionUID в DTO -->
+    <Match>
+        <Class name="~.*Request$"/>
+        <Bug code="SE_MISSING_SERIAL_VERSION_UID"/>
+    </Match>
+
+    <Match>
+        <Class name="~.*Response$"/>
+        <Bug code="SE_MISSING_SERIAL_VERSION_UID"/>
+    </Match>
+
+    <!-- Игнорировать EI_EXPOSE_REP в Entity классах с Lombok -->
+    <Match>
+        <Class name="~by\.shaaldy\.booking\.entity\..*"/>
+        <Bug code="EI_EXPOSE_REP,EI_EXPOSE_REP2"/>
+    </Match>
+
+    <!-- Игнорировать synthetic accessors генерируемые Lombok -->
+    <Match>
+        <Method name="~access\$.*"/>
+        <Bug code="NP"/>
+    </Match>
+
+    <!-- Разрешить пустые catch блоки с комментариями -->
+    <Match>
+        <Bug code="DE_MIGHT_IGNORE"/>
+    </Match>
+
+    <!-- Игнорировать HTTP 200 ответы без описания -->
+    <Match>
+        <Class name="~.*Controller$"/>
+        <Bug code="XSS"/>
+    </Match>
+
+</FindBugsFilter>

@@ -1,0 +1,187 @@
+<?xml version="1.0"?>
+<!DOCTYPE module PUBLIC
+        "-//Checkstyle//DTD Checkstyle Configuration 1.3//EN"
+        "https://checkstyle.org/dtds/configuration_1_3.dtd">
+
+<!--
+Checkstyle конфигурация для Booking Service
+Проверяет стиль кода, соглашения об именовании, качество кода
+-->
+<module name="Checker">
+    <!-- Кодировка файлов -->
+    <property name="charset" value="UTF-8"/>
+    <property name="severity" value="warning"/>
+    <property name="fileExtensions" value="java,properties,xml"/>
+
+    <!-- Проверка пустых строк в конце файла -->
+    <module name="NewlineAtEndOfFile"/>
+
+    <!-- Проверка длины строк -->
+    <module name="LineLength">
+        <property name="fileExtensions" value="java"/>
+        <property name="max" value="120"/>
+        <property name="ignorePattern" value="^package.*|^import.*|a href|href|http://|https://"/>
+    </module>
+
+    <!-- Проверка табуляции -->
+    <module name="FileTabCharacter">
+        <property name="eachLine" value="true"/>
+    </module>
+
+    <!-- Проверка пробелов и отступов -->
+    <module name="TreeWalker">
+        <property name="tabWidth" value="4"/>
+
+        <!-- === ИМЕНОВАНИЕ === -->
+        <module name="PackageName">
+            <property name="format" value="^[a-z]+(\.[a-z][a-z0-9]*)*$"/>
+            <message key="name.invalidPattern" value="Package name ''{0}'' must match pattern ''{1}''."/>
+        </module>
+
+        <module name="TypeName">
+            <property name="format" value="^[A-Z][a-zA-Z0-9]*$"/>
+            <message key="name.invalidPattern" value="Type name ''{0}'' must match pattern ''{1}''."/>
+        </module>
+
+        <module name="MemberName">
+            <property name="format" value="^[a-z][a-zA-Z0-9]*$"/>
+            <message key="name.invalidPattern" value="Member name ''{0}'' must match pattern ''{1}''."/>
+        </module>
+
+        <module name="ParameterName">
+            <property name="format" value="^[a-z]([a-zA-Z0-9]*)?$"/>
+            <message key="name.invalidPattern" value="Parameter name ''{0}'' must match pattern ''{1}''."/>
+        </module>
+
+        <module name="LocalVariableName">
+            <property name="tokens" value="VARIABLE_DEF"/>
+            <property name="format" value="^[a-z]([a-zA-Z0-9]*)?$"/>
+            <message key="name.invalidPattern" value="Local variable name ''{0}'' must match pattern ''{1}''."/>
+        </module>
+
+        <module name="ClassTypeParameterName">
+            <property name="format" value="(^[A-Z][0-9]?)$|([A-Z][a-zA-Z]*[T]$)"/>
+            <message key="name.invalidPattern" value="Class type parameter name ''{0}'' must match pattern ''{1}''."/>
+        </module>
+
+        <module name="MethodTypeParameterName">
+            <property name="format" value="(^[A-Z][0-9]?)$|([A-Z][a-zA-Z]*[T]$)"/>
+            <message key="name.invalidPattern" value="Method type parameter name ''{0}'' must match pattern ''{1}''."/>
+        </module>
+
+        <module name="InterfaceTypeParameterName">
+            <property name="format" value="(^[A-Z][0-9]?)$|([A-Z][a-zA-Z]*[T]$)"/>
+            <message key="name.invalidPattern" value="Interface type parameter name ''{0}'' must match pattern ''{1}''."/>
+        </module>
+
+        <module name="ConstantName">
+            <property name="format" value="^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$"/>
+            <message key="name.invalidPattern" value="Constant name ''{0}'' must match pattern ''{1}''."/>
+        </module>
+
+        <module name="StaticVariableName">
+            <property name="format" value="^[a-z][a-zA-Z0-9]*$"/>
+            <message key="name.invalidPattern" value="Static variable name ''{0}'' must match pattern ''{1}''."/>
+        </module>
+
+        <module name="MethodName">
+            <property name="format" value="^[a-z][a-zA-Z0-9]*$"/>
+            <message key="name.invalidPattern" value="Method name ''{0}'' must match pattern ''{1}''."/>
+        </module>
+
+        <!-- === ПРОБЕЛЫ И ФОРМАТИРОВАНИЕ === -->
+        <module name="WhitespaceAround">
+            <property name="allowEmptyConstructors" value="true"/>
+            <property name="allowEmptyLambdas" value="true"/>
+            <property name="allowEmptyMethods" value="true"/>
+            <property name="allowEmptyTypes" value="true"/>
+            <message key="ws.notFollowed" value="WhitespaceAround: ''{0}'' is not followed by whitespace. Empty blocks may only be represented as '{}' when not part of a controlled statement."/>
+            <message key="ws.notPreceded" value="WhitespaceAround: ''{0}'' is not preceded by whitespace."/>
+        </module>
+
+        <module name="OneStatementPerLine"/>
+        <module name="MultipleVariableDeclarations"/>
+        <module name="ArrayTypeStyle"/>
+        <module name="MissingSwitchDefault"/>
+        <module name="FallThrough"/>
+        <module name="UpperEll"/>
+
+        <!-- === ИМПОРТЫ === -->
+        <module name="AvoidStarImport">
+            <property name="excludes" value="java.io,java.util,java.util.regex,java.lang.Math"/>
+        </module>
+
+        <module name="UnusedImports">
+            <property name="processJavadoc" value="false"/>
+        </module>
+
+        <module name="ImportOrder">
+            <property name="groups" value="/^java\./,/^javax\./,/^org\./,/^com\./"/>
+            <property name="ordered" value="true"/>
+            <property name="separated" value="true"/>
+            <property name="option" value="bottom"/>
+            <property name="sortStaticImportsAlphabetically" value="true"/>
+            <property name="useContainerOrderingForStatic" value="true"/>
+        </module>
+
+        <!-- === СЛОЖНОСТЬ === -->
+        <module name="CyclomaticComplexity">
+            <property name="max" value="10"/>
+        </module>
+
+        <module name="NPathComplexity">
+            <property name="max" value="200"/>
+        </module>
+
+        <!-- === ДЛИНА МЕТОДОВ === -->
+        <module name="MethodLength">
+            <property name="tokens" value="METHOD_DEF"/>
+            <property name="max" value="100"/>
+            <property name="countEmpty" value="false"/>
+        </module>
+
+        <!-- === ПАРАМЕТРЫ === -->
+        <module name="ParameterNumber">
+            <property name="max" value="7"/>
+            <property name="tokens" value="METHOD_DEF"/>
+        </module>
+
+        <!-- === ДРУГОЕ === -->
+        <module name="LeftCurly">
+            <property name="ignoreEnums" value="false"/>
+        </module>
+
+        <module name="RightCurly">
+            <property name="id" value="RightCurlyAlone"/>
+            <property name="option" value="alone"/>
+            <property name="tokens" value="CLASS_DEF,METHOD_DEF,CTOR_DEF,LITERAL_FOR,LITERAL_WHILE,LITERAL_DO,LITERAL_IF,LITERAL_ELSE,LITERAL_SWITCH"/>
+        </module>
+
+        <module name="RightCurly">
+            <property name="id" value="RightCurlySame"/>
+            <property name="option" value="same"/>
+            <property name="tokens" value="LITERAL_TRY,LITERAL_CATCH,LITERAL_FINALLY,LITERAL_ELSE,LITERAL_DO"/>
+        </module>
+
+
+        <module name="StringLiteralEquality"/>
+        <module name="EqualsHashCode"/>
+        <module name="InnerAssignment"/>
+        <module name="SimplifyBooleanExpression"/>
+        <module name="SimplifyBooleanReturn"/>
+        <module name="NeedBraces">
+            <property name="allowSingleLineStatement" value="true"/>
+        </module>
+
+        <module name="OneTopLevelClass"/>
+        <module name="NoClone"/>
+        <module name="NoFinalizer"/>
+        <module name="PackageDeclaration"/>
+        <module name="ReturnCount">
+            <property name="max" value="3"/>
+            <property name="maxForVoid" value="1"/>
+        </module>
+
+    </module>
+
+</module>
