@@ -10,6 +10,8 @@ import by.shaaldy.booking.mapper.UserMapper;
 import by.shaaldy.booking.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -51,15 +53,13 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
-    public List<UserResponse> getAll(){
-        log.info("Fetching all users");
-        return userRepository.findAll().stream()
-                .map(userMapper::toResponse)
-                .collect(Collectors.toList());
+    public Page<UserResponse> getAll(Pageable pageable){
+        log.info("Fetching all users, page: {}", pageable.getPageNumber());
+        return userRepository.findAll(pageable).map(userMapper::toResponse);
     }
 
     @Transactional
-    public UserResponse updateUser(Long id, UpdateUserRequest request) throws ResourceNotFoundException {
+    public UserResponse update(Long id, UpdateUserRequest request) throws ResourceNotFoundException {
         log.info("Updating user with id: {}", id);
 
         User user = userRepository.findById(id)
@@ -78,4 +78,8 @@ public class UserService {
 
         return userMapper.toResponse(updated);
     }
+
+    @Transactional
+    public void delete()
+
 }
