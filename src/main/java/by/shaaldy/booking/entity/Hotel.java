@@ -24,14 +24,14 @@ public class Hotel {
   private Long id;
 
   @NotBlank(message = "Hotel name cannot be blank")
-  @Column(nullable = false, length = 255)
+  @Column(nullable = false)
   private String name;
 
   @NotBlank(message = "City cannot be blank")
   @Column(nullable = false, length = 100)
   private String city;
 
-  @Column(length = 255)
+  @Column
   private String address;
 
   @DecimalMin(value = "0.0", inclusive = false, message = "Rating must be greater than 0")
