@@ -1,54 +1,57 @@
 package by.shaaldy.booking.entity;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-
 @Entity
-@Table(name = "rooms", indexes = {
-        @Index(name = "idx_rooms_hotel", columnList = "hotel_id")
-})
+@Table(
+    name = "rooms",
+    indexes = {@Index(name = "idx_rooms_hotel", columnList = "hotel_id")})
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class Hotel {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    @NotBlank(message = "Hotel name cannot be blank")
-    @Column(nullable = false, length = 255)
-    private String name;
+  @NotBlank(message = "Hotel name cannot be blank")
+  @Column(nullable = false, length = 255)
+  private String name;
 
-    @NotBlank(message = "City cannot be blank")
-    @Column(nullable = false, length = 100)
-    private String city;
+  @NotBlank(message = "City cannot be blank")
+  @Column(nullable = false, length = 100)
+  private String city;
 
-    @Column(length = 255)
-    private String address;
+  @Column(length = 255)
+  private String address;
 
-    @DecimalMin(value = "0.0", inclusive = false, message = "Rating must be greater than 0")
-    @DecimalMax(value = "5.0", message = "Rating cannot exceed 5")
-    @Column(precision = 2, scale = 1)
-    private Double rating;
+  @DecimalMin(value = "0.0", inclusive = false, message = "Rating must be greater than 0")
+  @DecimalMax(value = "5.0", message = "Rating cannot exceed 5")
+  @Column(precision = 2, scale = 1)
+  private Double rating;
 
-    @Column(name = "created_at", nullable = false, updatable = false)
-    private LocalDateTime createdAt;
+  @Column(name = "created_at", nullable = false, updatable = false)
+  private LocalDateTime createdAt;
 
-    @OneToMany(mappedBy = "hotel", cascade = CascadeType.ALL,
-            orphanRemoval = true, fetch = FetchType.LAZY)
-    @Builder.Default
-    private List<Room> rooms = new ArrayList<>();
+  @OneToMany(
+      mappedBy = "hotel",
+      cascade = CascadeType.ALL,
+      orphanRemoval = true,
+      fetch = FetchType.LAZY)
+  @Builder.Default
+  private List<Room> rooms = new ArrayList<>();
 
-    @PrePersist
-    protected void onCreate() {
-        createdAt = LocalDateTime.now();
-    }
+  @PrePersist
+  protected void onCreate() {
+    createdAt = LocalDateTime.now();
+  }
 }

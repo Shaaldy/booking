@@ -7,8 +7,8 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class UpdateHotelRequest {
-    private String name;
-    private String city;
-    private String address;
-    private Double rating;
+  private String name;
+  private String city;
+  private String address;
+  private Double rating;
 }

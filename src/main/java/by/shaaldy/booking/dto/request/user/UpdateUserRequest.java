@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class UpdateUserRequest {
-    private String email;
-    private String hashPassword;
-
+  private String email;
+  private String hashPassword;
 }
