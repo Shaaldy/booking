@@ -38,25 +38,22 @@ public class HotelService {
     public HotelResponse getById(Long id) throws ResourceNotFoundException {
         log.info("Fetching hotel with id: {}", id);
 
-        Hotel hotel = hotelRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Hotel", "id", id));
+        Hotel hotel = hotelRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Hotel", "id", id));
 
         return hotelMapper.toResponse(hotel);
     }
 
     @Transactional(readOnly = true)
-    public Page<HotelResponse> getAll(Pageable pageable){
+    public Page<HotelResponse> getAll(Pageable pageable) {
         log.info("Fetching all hotels, page: {}", pageable.getPageNumber());
 
-        return hotelRepository.findAll(pageable)
-                .map(hotelMapper::toResponseWithoutRooms);
+        return hotelRepository.findAll(pageable).map(hotelMapper::toResponseWithoutRooms);
     }
 
     @Transactional
     public HotelResponse update(Long id, UpdateHotelRequest request) throws ResourceNotFoundException {
         log.info("Updating hotel with id: {}", id);
-        Hotel hotel = hotelRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Hotel", "id", id));
+        Hotel hotel = hotelRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Hotel", "id", id));
 
         hotelMapper.updateEntity(request, hotel);
 
@@ -69,8 +66,7 @@ public class HotelService {
     @Transactional
     public void delete(Long id) throws ResourceNotFoundException {
         log.info("Deleting hotel with id: {}", id);
-        Hotel hotel = hotelRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Hotel", "id", id));
+        Hotel hotel = hotelRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Hotel", "id", id));
         hotelRepository.delete(hotel);
         log.info("Hotel deleted with id: {}", id);
     }
