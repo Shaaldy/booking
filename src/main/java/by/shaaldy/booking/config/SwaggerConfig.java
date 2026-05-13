@@ -1,0 +1,39 @@
+package by.shaaldy.booking.config;
+
+import io.swagger.v3.oas.models.Components;
+import io.swagger.v3.oas.models.info.Contact;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.info.License;
+import io.swagger.v3.oas.models.security.SecurityScheme;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import io.swagger.v3.oas.models.OpenAPI;
+
+@Configuration
+public class SwaggerConfig {
+
+    @Bean
+    public OpenAPI customOpenAPI() {
+        return new OpenAPI()
+                .info(new Info()
+                        .title("Booking Service API")
+                        .description("Production-ready REST API для сервиса бронирования отелей. " +
+                                "Полная CRUD функциональность для управления отелями, комнатами, " +
+                                "бронированиями и пользователями.")
+                        .version("1.0.0")
+                        .contact(new Contact()
+                                .name("Development Team")
+                                .email("support@booking-service.com")
+                                .url("https://github.com/shaaldy/booking-service"))
+                        .license(new License()
+                                .name("Apache 2.0")
+                                .url("https://www.apache.org/licenses/LICENSE-2.0.html")))
+                .components(new Components()
+                        .addSecuritySchemes("bearer-jwt",
+                                new SecurityScheme()
+                                        .type(SecurityScheme.Type.HTTP)
+                                        .scheme("bearer")
+                                        .bearerFormat("JWT")
+                                        .description("JWT токен для аутентификации")));
+    }
+}
