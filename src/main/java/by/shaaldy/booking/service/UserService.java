@@ -80,6 +80,15 @@ public class UserService {
     }
 
     @Transactional
-    public void delete()
+    public void delete(Long id) throws ResourceNotFoundException {
+        log.info("Deleting user with id: {}", id);
+
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("User", "id", id));
+        userRepository.delete(user);
+        log.info("User deleted with id: {}", id);
+    }
+
+
 
 }
