@@ -30,5 +30,6 @@ CREATE TABLE bookings(
     check_in DATE NOT NULL,
     check_out DATE NOT NULL,
     status VARCHAR(20) NOT NULL, --  CREATED / CANCELLED
-    created_at TIMESTAMP DEFAULT NOW()
+    created_at TIMESTAMP DEFAULT NOW(),
+    updated_at TIMESTAMP
 );

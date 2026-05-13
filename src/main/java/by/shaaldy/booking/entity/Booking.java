@@ -8,16 +8,14 @@ import lombok.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter
-@Setter
 @Entity
 @Table(name = "bookings", indexes = {
-        @Index(name = "idx_bookings_room_dates",
-                columnList = "room_id, check_in, check_out")
+        @Index(name = "idx_bookings_room_dates", columnList = "room_id, check_in, check_out")
 })
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Booking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
