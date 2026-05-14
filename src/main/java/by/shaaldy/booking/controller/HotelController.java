@@ -31,7 +31,22 @@ public class HotelController {
   private final HotelService hotelService;
 
   @PostMapping
-  public ResponseEntity<HotelResponse> create(@Valid @RequestBody CreateHotelRequest request) {
+  @Operation(
+      summary = "Создать новый отель",
+      description = "Создает новый отель с информацией о названии, городе и рейтинге")
+  @ApiResponses(
+      value = {
+        @ApiResponse(responseCode = "201", description = "Отель успешно создан"),
+        @ApiResponse(
+            responseCode = "400",
+            description = "Ошибка валидации (неверное имя, город или рейтинг)")
+      })
+  public ResponseEntity<HotelResponse> create(
+      @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Данные нового отеля)")
+          @Valid
+          @RequestBody
+          CreateHotelRequest request) {
+    log.info("POST /hotels - Create user");
     HotelResponse response = hotelService.create(request);
     return ResponseEntity.status(HttpStatus.CREATED).body(response);
   }
