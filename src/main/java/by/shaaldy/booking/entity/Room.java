@@ -14,8 +14,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
+@Data
 @Entity
 @Table(
     name = "rooms",
@@ -56,5 +55,6 @@ public class Room {
       cascade = CascadeType.ALL,
       orphanRemoval = true,
       fetch = FetchType.LAZY)
+  @Builder.Default
   private List<Booking> bookings = new ArrayList<>();
 }

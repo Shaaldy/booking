@@ -42,6 +42,7 @@ public class User {
       cascade = CascadeType.ALL,
       orphanRemoval = true,
       fetch = FetchType.LAZY)
+  @Builder.Default
   private List<Booking> bookings = new ArrayList<>();
 
   @PrePersist

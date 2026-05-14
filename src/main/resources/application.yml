@@ -1,0 +1,45 @@
+spring:
+  application:
+    name: booking
+
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:postgres}
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
+
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 2
+      idle-timeout: 30000
+      connection-timeout: 5000
+
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        default_schema: booking
+        format_sql: true
+        jdbc:
+          time_zone: UTC
+    show-sql: true
+
+# ─── Server ────────────────────────────────────────────────
+
+server:
+  port: 8080
+
+logging:
+  level:
+    root: info
+    by.shaaldy.booking: info
+    org.springframework.web: info
+
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+  api-docs:
+    path: /v3/api/api-docs
+
