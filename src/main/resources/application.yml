@@ -16,7 +16,7 @@ spring:
   jpa:
     open-in-view: false
     hibernate:
-      ddl-auto: validate
+      ddl-auto: validate  # ← После создания схемы используй validate
     properties:
       hibernate:
         default_schema: booking
@@ -25,7 +25,10 @@ spring:
           time_zone: UTC
     show-sql: true
 
-# ─── Server ────────────────────────────────────────────────
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    baseline-on-migrate: true
 
 server:
   port: 8080
@@ -33,13 +36,13 @@ server:
 logging:
   level:
     root: info
-    by.shaaldy.booking: info
-    org.springframework.web: info
-
+    by.shaaldy.booking: debug
+    org.springframework.web: debug
+    org.hibernate.SQL: debug
+    org.hibernate.type.descriptor.sql.BasicBinder: trace
 
 springdoc:
   swagger-ui:
     path: /swagger-ui.html
   api-docs:
-    path: /v3/api/api-docs
-
+    path: /v3/api-docs

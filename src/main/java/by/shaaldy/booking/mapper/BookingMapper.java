@@ -10,10 +10,13 @@ import by.shaaldy.booking.entity.Booking;
 @Mapper(componentModel = "spring")
 public interface BookingMapper {
 
+  /** Преобразовать Entity в Response Используем @Mapping для преобразования связей в ID */
   @Mapping(source = "user.id", target = "userId")
   @Mapping(source = "room.id", target = "roomId")
   BookingResponse toResponse(Booking booking);
 
+  /** Преобразовать CreateRequest в Entity (без связей) */
+  @Mapping(target = "id", ignore = true)
   @Mapping(target = "user", ignore = true)
   @Mapping(target = "room", ignore = true)
   @Mapping(target = "status", ignore = true)

@@ -13,6 +13,8 @@ CREATE TABLE hotels(
     rating NUMERIC(2, 1),
     created_at TIMESTAMP DEFAULT NOW()
 );
+CREATE INDEX idx_hotels_city
+    ON hotels(city);
 
 CREATE TABLE rooms(
     id BIGSERIAL PRIMARY KEY,
@@ -22,6 +24,8 @@ CREATE TABLE rooms(
     price_per_night NUMERIC(10, 2) NOT NULL,
     capacity INT NOT NULL
 );
+CREATE INDEX idx_rooms_hotel ON rooms(hotel_id);
+
 
 CREATE TABLE bookings(
     id BIGSERIAL PRIMARY KEY,
@@ -33,3 +37,18 @@ CREATE TABLE bookings(
     created_at TIMESTAMP DEFAULT NOW(),
     updated_at TIMESTAMP
 );
+ALTER TABLE bookings
+    ADD CONSTRAINT check_dates
+        CHECK (check_in < check_out);
+CREATE EXTENSION IF NOT EXISTS btree_gist;
+ALTER TABLE bookings
+    ADD CONSTRAINT no_overlapping_active_bookings
+        EXCLUDE USING gist (
+        room_id WITH =,
+        daterange(check_in, check_out) WITH &&
+        )
+        WHERE (status = 'CREATED');
+
+CREATE INDEX idx_bookings_room_dates
+    ON bookings(room_id, check_in, check_out);
+
